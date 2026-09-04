@@ -2,7 +2,11 @@ include(functions/copy_files)
 include(functions/trim_retired_files)
 
 if(NOT DEFINED DEVILUTIONX_MODS_OUTPUT_DIRECTORY)
-  set(DEVILUTIONX_MODS_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/mods")
+  if(NINTENDO_SWITCH OR NINTENDO_3DS)
+    set(DEVILUTIONX_MODS_OUTPUT_DIRECTORY "${DEVILUTIONX_ASSETS_OUTPUT_DIRECTORY}/mods")
+  else()
+    set(DEVILUTIONX_MODS_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/mods")
+  endif()
 endif()
 
 set(hellfire_mod

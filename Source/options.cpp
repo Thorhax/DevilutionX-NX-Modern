@@ -310,6 +310,8 @@ void OptionEntryBoolean::SaveToIni(std::string_view category) const
 }
 void OptionEntryBoolean::SetValue(bool newValue)
 {
+	if (this->value == newValue)
+		return;
 	this->value = newValue;
 	this->NotifyValueChanged();
 }
@@ -341,6 +343,8 @@ void OptionEntryEnumBase::SaveToIni(std::string_view category) const
 }
 void OptionEntryEnumBase::SetValueInternal(int newValue)
 {
+	if (this->value == newValue)
+		return;
 	this->value = newValue;
 	this->NotifyValueChanged();
 }
@@ -432,7 +436,7 @@ std::string_view OptionCategoryBase::GetDescription() const
 
 GameModeOptions::GameModeOptions()
     : OptionCategoryBase("GameMode", N_("Game Mode"), N_("Game Mode Settings"))
-    , gameMode("Game", OptionEntryFlags::Invisible, N_("Game Mode"), N_("Play Diablo or Hellfire."), StartUpGameMode::Ask,
+    , gameMode("Game", OptionEntryFlags::NeedHellfireMpq | OptionEntryFlags::RecreateUI, N_("Game Mode"), N_("Play Diablo or Hellfire."), StartUpGameMode::Ask,
           {
               { StartUpGameMode::Diablo, N_("Diablo") },
               // Ask is missing, because we want to hide it from UI-Settings.
@@ -1622,6 +1626,9 @@ void ModOptions::SetHellfireEnabled(bool enableHellfire)
 			modEntry.enabled.SetValue(enableHellfire);
 			break;
 		}
+	}
+	if (*GetOptions().GameMode.gameMode != StartUpGameMode::Ask) {
+		GetOptions().GameMode.gameMode.SetValue(enableHellfire ? StartUpGameMode::Hellfire : StartUpGameMode::Diablo);
 	}
 }
 

@@ -126,6 +126,8 @@ enum class OptionEntryFlags : uint8_t {
 	RecreateUI = 1 << 5,
 	/** @brief diablo.mpq must be present. */
 	NeedDiabloMpq = 1 << 6,
+	/** @brief hellfire.mpq must be present. */
+	NeedHellfireMpq = 1 << 7,
 };
 use_enum_as_flags(OptionEntryFlags);
 

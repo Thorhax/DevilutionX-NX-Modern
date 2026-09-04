@@ -500,9 +500,9 @@ endif()
 
 if(NINTENDO_SWITCH)
   nx_generate_nacp (${BIN_TARGET}.nacp
-    NAME    "DevilutionX 1.6.0 NX"
+    NAME    "DevilutionX 1.6.1 NX"
     AUTHOR  "Thorhax"
-    VERSION "1.6.0 NX"
+    VERSION "1.6.1 NX"
   )
 
   file(MAKE_DIRECTORY "${DEVILUTIONX_ASSETS_OUTPUT_DIRECTORY}")

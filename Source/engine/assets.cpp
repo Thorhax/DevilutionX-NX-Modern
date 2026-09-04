@@ -482,6 +482,10 @@ std::vector<std::string> GetMPQSearchPaths()
 	}
 #endif
 
+	if (!paths::AssetsPath().empty() && std::find(paths.begin(), paths.end(), paths::AssetsPath()) == paths.end()) {
+		paths.push_back(paths::AssetsPath());
+	}
+
 	if (paths.empty() || !paths.back().empty()) {
 		paths.emplace_back(); // PWD
 	}
@@ -741,6 +745,15 @@ void LoadModArchives(std::span<const std::string_view> modnames)
 #ifndef UNPACKED_MPQS
 			hasLooseOverride[i] = true;
 #endif
+		}
+		if (!paths::AssetsPath().empty()) {
+			targetPath = StrCat(paths::AssetsPath(), "mods" DIRECTORY_SEPARATOR_STR, modname, DIRECTORY_SEPARATOR_STR);
+			if (DirectoryExists(targetPath)) {
+				OverridePaths.emplace_back(targetPath);
+#ifndef UNPACKED_MPQS
+				hasLooseOverride[i] = true;
+#endif
+			}
 		}
 	}
 	OverridePaths.emplace_back(paths::PrefPath());
